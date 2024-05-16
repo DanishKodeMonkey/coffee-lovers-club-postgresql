@@ -10,10 +10,9 @@ var logger = require('morgan');
 
 const mongoose = require('mongoose');
 const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
 var indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth'); // import all auth related routes
 const messageBoardRouter = require('./routes/messageboard'); // import all routes for messageboard area
 
 var app = express();
@@ -39,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // routers set to app
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 app.use('/messageboard', messageBoardRouter);
 
 // catch 404 and forward to error handler

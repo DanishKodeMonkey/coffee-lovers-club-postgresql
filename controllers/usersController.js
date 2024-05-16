@@ -1,9 +1,13 @@
 const Users = require('../models/users');
 const asyncHandler = require('express-async-handler');
 
+// Password stuff
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 // sign up form GET
 exports.sign_up_get = asyncHandler(async (req, res, next) => {
-    res.send('Not implemented: User sign up GET');
+    res.render('sign-up-form', { title: 'User sign up' });
 });
 
 // sign up form POST
