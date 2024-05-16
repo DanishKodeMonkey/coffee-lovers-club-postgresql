@@ -3,26 +3,19 @@ var router = express.Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
-const users_controller = require('../models/users');
+const User = require('../models/users');
+const users_controller = require('../controllers/usersController');
 
 // sign in GET
-router.get('/sign-in', (req, res, next) => {
-    res.send('Not implemented: User sign in GET');
-});
+router.get('/sign-in', users_controller.sign_in_get);
 
 // sign in POST
-router.post('/sign-in', (req, res, next) => {
-    res.send('Not implemented: User sign in POST');
-});
+router.post('/sign-in', users_controller.sign_in_post);
 
 // sign up GET
-router.get('/sign-up', (req, res, next) => {
-    res.render('sign-up-form', { title: 'Sign up' });
-});
+router.get('/sign-up', users_controller.sign_up_get);
 
 // sign up POST
-router.post('/sign-up', (req, res, next) => {
-    res.send('Not implemented: User sign up POST');
-});
+router.post('/sign-up', users_controller.sign_up_post);
 
 module.exports = router;
