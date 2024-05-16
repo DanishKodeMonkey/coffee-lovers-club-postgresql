@@ -21,7 +21,7 @@ UsersSchema.virtual('full_name').get(function () {
     // Avoid errors in cases where first or last name is somehow not existant
     let fullname = '';
     if (this.first_name && this.last_name) {
-        fullname = `${this.first_name}, ${this.last_name}`;
+        fullname = `${this.first_name} ${this.last_name}`;
     }
 
     return fullname;
