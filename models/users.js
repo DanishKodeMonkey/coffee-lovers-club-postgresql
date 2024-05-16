@@ -12,7 +12,7 @@ const UsersSchema = new Schema({
         enum: ['Guest', 'Member', 'Admin'],
         default: 'Guest',
     },
-    password: { type: String, required: true },
+    password: { type: String, required: true, minLength: 4, maxLength: 9999 },
     // Refer to users messages
     messages: [{ type: Schema.Types.ObjectId, ref: 'Messages' }],
 });
