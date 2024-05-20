@@ -10,6 +10,7 @@ var logger = require('morgan');
 
 const mongoose = require('mongoose');
 const session = require('express-session');
+const passport = require('./config/passport'); // Import configured passport
 
 var indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth'); // import all auth related routes
@@ -35,6 +36,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Session and passport middleware setup
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
 
 // routers set to app
 app.use('/', indexRouter);

@@ -2,40 +2,6 @@ const Users = require('../models/users');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 
-// Password stuff
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
-// For sign in, use passport for authentication
-passport.use(
-    // set up new local strategy using input username and password
-    new LocalStrategy(async (username, password, done) => {
-        try {
-            //Try to:
-            // Find user by username
-            const user = await User.findOne({ username: username });
-            // If user is not found, finish with message
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username' });
-            }
-            // If user password does not match stored password, finish with message
-            if (user.password !== password) {
-                return done(null, false, { message: 'Incorrect password' });
-            }
-            // Otherwise, pass authentication
-            return done(null, user);
-            // Anything go wrong ,return error.
-        } catch (err) {
-            return done(err);
-        }
-    })
-);
-
-// Serialization functions for maintaining login state in session
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
 // sign up form GET
 exports.sign_up_get = asyncHandler(async (req, res, next) => {
     res.render('sign-up-form', { title: 'User sign up' });
@@ -88,15 +54,18 @@ exports.sign_up_post = [
         } else {
             // Data form is valid
             await user.save();
-            res.redirect('/');
+            res.redirect('/auth/sign-in');
         }
     }),
 ];
 
 // sign in form GET
 exports.sign_in_get = asyncHandler(async (req, res, next) => {
-    res.send('Not implemented: User sign in GET');
+    res.render('sign-in-form', { title: 'User sign in' });
 });
 
 // sign in form POST
-exports.sign_in_post = asyncHandler(async (req, res, next) => {});
+exports.sign_in_post = passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/auth/sign-in',
+});
