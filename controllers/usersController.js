@@ -1,3 +1,4 @@
+require('dotenv').config();
 const Users = require('../models/users');
 const asyncHandler = require('express-async-handler');
 const passport = require('../config/passport'); // import pre-configured passport
@@ -99,3 +100,38 @@ exports.sign_in_post = (req, res, next) => {
         });
     })(req, res, next);
 };
+
+exports.upgrade_user_post = [
+    body('userId').trim().escape(),
+    body('superSecretMemberKey', 'The key did not match').custom(
+        (value, { req }) => value === process.env.SUPER_SECRET_KEY
+    ),
+
+    // shandle request after validation
+    asyncHandler(async (req, res, next) => {
+        // extract errors from validation result if failed
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            // validation error found, render form again with error message
+            res.render('index', {
+                title: 'Coffee Lovers Messageboard',
+                user: req.user,
+                errors: errors.array(),
+                supersecretkey: process.env.SUPER_SECRET_KEY,
+            });
+            return;
+        }
+        // validation succesful, proceed with upgrade
+        const user = await Users.findById(req.body.userId);
+        if (!user) {
+            // User not found
+            return res.status(404).send('User not found, upgrade cancelled.');
+        }
+        user.membership = 'Member'; //Update membership
+        await user.save();
+        res.redirect('/');
+
+        // create new user object, but remember _id to update existing user
+    }),
+];

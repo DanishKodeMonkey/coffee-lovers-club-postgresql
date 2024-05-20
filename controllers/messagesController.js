@@ -6,7 +6,7 @@ const currentUser = require('../middleware/authMiddleware').currentUser;
 exports.index = asyncHandler(async (req, res, next) => {
     res.render('index', {
         title: 'Coffee Lovers Messageboard',
-        user: req.user.username,
+        user: req.user,
     });
 });
 

@@ -14,6 +14,9 @@ router.get('/sign-up', users_controller.sign_up_get);
 // sign up POST
 router.post('/sign-up', users_controller.sign_up_post);
 
+// upgrade user POST
+router.post('/upgrade-user', users_controller.upgrade_user_post);
+
 router.get('/sign-out', (req, res, next) => {
     req.logout(err => {
         if (err) {
@@ -22,4 +25,5 @@ router.get('/sign-out', (req, res, next) => {
         res.redirect('/');
     });
 });
+
 module.exports = router;
