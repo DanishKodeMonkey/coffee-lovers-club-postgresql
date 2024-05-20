@@ -1,6 +1,7 @@
 // Passport stuff
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcryptjs');
 const Users = require('../models/users');
 
 // For sign in, use passport for authentication
@@ -15,9 +16,11 @@ passport.use(
             if (!user) {
                 return done(null, false, { message: 'Incorrect username' });
             }
-            // If user password does not match stored password, finish with message
-            if (user.password !== password) {
-                return done(null, false, { message: 'Incorrect password' });
+            // Use bcrypt to match authenticate password.
+            const match = await bcrypt.compare(password, user.password);
+            if (!match) {
+                // passwords do not match!
+                return done(null, false, { message: 'Incorrect password.' });
             }
             // Otherwise, pass authentication
             return done(null, user);

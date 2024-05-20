@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema;
 
@@ -31,4 +32,12 @@ UsersSchema.virtual('url').get(function () {
     return `/club/users/${this._id}`;
 });
 
+// a action performed before model build, using bcrypt to hash password
+// set up to support user password update to be implemented later
+UsersSchema.pre('save', async function (next) {
+    if (this.isModified('password') || this.isNew) {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+    next();
+});
 module.exports = mongoose.model('Users', UsersSchema);
