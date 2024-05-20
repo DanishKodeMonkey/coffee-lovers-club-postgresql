@@ -5,7 +5,7 @@ const { body, validationResult } = require('express-validator');
 
 // sign up form GET
 exports.sign_up_get = asyncHandler(async (req, res, next) => {
-    res.render('sign-up-form', { title: 'User sign up' });
+    res.render('sign-up-form', { title: 'User sign up', user: {}, errors: [] });
 });
 
 // sign up form POST
@@ -32,6 +32,11 @@ exports.sign_up_post = [
             'Please ensure passwords are between 4 and 9999 characters.'
         ),
 
+    // custom validation to check for password match for confirm password field
+    body('confirmPassword', 'Passwords do not match').custom(
+        (value, { req }) => value === req.body.password
+    ),
+
     // process request after validation and sanitization
     asyncHandler(async (req, res, next) => {
         // extract validation errors from request
@@ -43,8 +48,14 @@ exports.sign_up_post = [
             first_name: req.body.firstName,
             last_name: req.body.lastName,
             password: req.body.password,
+            confirmPassword: req.body.confirmPassword,
         });
         if (!errors.isEmpty()) {
+            console.error(
+                'Something went wrong, resending form: ',
+                errors,
+                user
+            );
             // Errors detected, render form again with values and error message
             res.render('sign-up-form', {
                 title: 'Sign up',

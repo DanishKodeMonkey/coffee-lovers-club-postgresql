@@ -10,6 +10,15 @@
             action=""
             method="post"
         >
+            <label for="username">Username:</label>
+            <input
+                name="username"
+                placeholder="username"
+                type="text"
+                required
+                maxlength="100"
+                value="<%= user && user.username ? user.username : '' %>"
+            />
             <label for="firstName">First name:</label>
             <input
                 name="firstName"
@@ -17,6 +26,7 @@
                 maxlength="200"
                 required
                 type="text"
+                value="<%= user && user.first_name ? user.first_name : '' %>"
             />
             <label for="lastName">First name:</label>
             <input
@@ -25,15 +35,9 @@
                 maxlength="200"
                 required
                 type="text"
+                value="<%= user && user.last_name ? user.last_name : '' %>"
             />
-            <label for="username">Username:</label>
-            <input
-                name="username"
-                placeholder="username"
-                type="text"
-                required
-                maxlength="100"
-            />
+
             <label for="password">Password:</label>
             <input
                 name="password"
@@ -41,8 +45,21 @@
                 required
                 minlength="4"
                 maxlength="9999"
+                value="<%= user && user.password ? user.password : '' %>"
+            />
+            <label for="confirmPassword">Confirm password:</label>
+            <input
+                name="confirmPassword"
+                type="password"
+                required
+                minlength="4"
+                maxlength="9999"
+                value="<%= user && user.confirmPassword ? user.confirmPassword : '' %>"
             />
             <button>Sign up</button>
         </form>
+        <% if (errors) { %> <% for( let error of errors) { %>
+        <li><%= error.msg %></li>
+        <% } %> <% } %>
     </body>
 </html>
