@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link
+            rel="stylesheet"
+            href="/stylesheets/style.css"
+        />
+    </head>
+    <body>
+        <main>
+            <div class="messages">
+                <% console.log(messages) %>
+                <h1><%= title %></h1>
+                <% if (!messages.length ) { %>
+                <p>No messages found</p>
+                <% } else { %>
+                <ul>
+                    <% messages.forEach(message => { %>
+                    <li>
+                        <h2><%= message.title %></h2>
+                        <hr />
+                        <h3><%= message.author %></h3>
+                        :
+                        <h4><%= message.timestamp %></h4>
+                        <hr />
+                        <p><% message.message %></p>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>
+            </div>
+        </main>
+    </body>
+</html>

@@ -8,35 +8,42 @@
         />
     </head>
     <body>
-        <% console.log(user) %>
-        <h1>WELCOME BACK <%= user.username %>!</h1>
-        <h2>You are currently a <%= user.membership %></h2>
-        <% if (user.membership === 'Guest') { %>
-        <p>
-            Therefore, you may only access the message board in read only mode.
-        </p>
-        <p>
-            Want to post? That requires a priviliged secret key! Type it below
-            to upgrade to a full fledged member!
-        </p>
-        <form
-            action="/auth/upgrade-user"
-            method="post"
-        >
-            <input
-                type="hidden"
-                name="userId"
-                value="<%= user._id %>"
-            />
-            <label for="superSecretMemberKey">Super secret member key:</label>
-            <input
-                name="superSecretMemberKey"
-                type="password"
-            />
-
-            <button>Submit</button>
-        </form>
-        <% } %>
-        <a href="/auth/sign-out">LOG OUT</a>
+        <div class="user-content">
+            <% console.log(user) %>
+            <h1>WELCOME BACK <%= user.username %>!</h1>
+            <h2>You are currently a <%= user.membership %></h2>
+            <% if (user.membership === 'Guest') { %>
+            <p>
+                Therefore, you may only access the message board in read only
+                mode.
+            </p>
+            <p>
+                Want to post? That requires a priviliged secret key! Type it
+                below to upgrade to a full fledged member!
+            </p>
+            <form
+                action="/auth/upgrade-user"
+                method="post"
+            >
+                <input
+                    type="hidden"
+                    name="userId"
+                    value="<%= user._id %>"
+                />
+                <label for="superSecretMemberKey"
+                    >Super secret member key:</label
+                >
+                <input
+                    name="superSecretMemberKey"
+                    type="password"
+                />
+                <button>Submit</button>
+            </form>
+            <% } %>
+            <a href="/auth/sign-out">LOG OUT</a>
+        </div>
+        <div class="messageboard">
+            <a href="/messageboard/messages">Go to messageboard</a>
+        </div>
     </body>
 </html>

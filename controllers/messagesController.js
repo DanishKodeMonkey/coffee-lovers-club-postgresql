@@ -12,7 +12,12 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // display all messages
 exports.messages_list = asyncHandler(async (req, res, next) => {
-    res.send('Not implemented: messages list');
+    const allMessages = await Messages.find({}).sort({ timestamp: 1 }).exec();
+
+    res.render('messageboard', {
+        title: 'Messageboard',
+        messages: allMessages,
+    });
 });
 
 // create new message GET
