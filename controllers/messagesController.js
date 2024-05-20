@@ -1,9 +1,13 @@
 const Messages = require('../models/messages');
 const asyncHandler = require('express-async-handler');
+const currentUser = require('../middleware/authMiddleware').currentUser;
 
 // Index route
 exports.index = asyncHandler(async (req, res, next) => {
-    res.send('Not implemented: Site home page');
+    res.render('index', {
+        title: 'Coffee Lovers Messageboard',
+        user: req.user.username,
+    });
 });
 
 // display all messages
