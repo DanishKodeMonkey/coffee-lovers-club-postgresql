@@ -1,5 +1,6 @@
 const Users = require('../models/users');
 const asyncHandler = require('express-async-handler');
+const passport = require('../config/passport'); // import pre-configured passport
 const { body, validationResult } = require('express-validator');
 
 // sign up form GET
@@ -65,7 +66,25 @@ exports.sign_in_get = asyncHandler(async (req, res, next) => {
 });
 
 // sign in form POST
-exports.sign_in_post = passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/auth/sign-in',
-});
+exports.sign_in_post = (req, res, next) => {
+    console.log('Attempting to authenticate user...');
+    passport.authenticate('local', (err, user, info) => {
+        console.log('Authentication callback executed...');
+        if (err) {
+            console.error('ERROR: ', err);
+            return next(err);
+        }
+        if (!user) {
+            console.log('Authentication failed: ', info.message);
+            return res.redirect('/auth/sign-in');
+        }
+        req.logIn(user, err => {
+            if (err) {
+                console.error('Login error: ', err);
+                return next(err);
+            }
+            console.log('User authenticated succesfully: ', user);
+            return res.redirect('/');
+        });
+    })(req, res, next);
+};
