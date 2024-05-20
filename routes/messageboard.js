@@ -10,29 +10,16 @@ const messages_controller = require('../controllers/messagesController');
 router.get('/', ensureAuthenticated, messages_controller.index);
 
 /// MESSAGES ROUTES ///
-// GET request for create message
-router.get(
-    '/messages/create',
-    ensureAuthenticated,
-    messages_controller.message_create_get
-);
 
 // POST request for create message
-router.get(
+router.post(
     '/messages/create',
     ensureAuthenticated,
     messages_controller.message_create_post
 );
 
-// GET request for delete message
-router.get(
-    '/messages/:id/delete',
-    ensureAuthenticated,
-    messages_controller.message_delete_get
-);
-
 // POST request for delete message
-router.get(
+router.post(
     '/messages/:id/delete',
     ensureAuthenticated,
     messages_controller.message_delete_post

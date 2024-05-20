@@ -10,8 +10,54 @@
     <body>
         <main>
             <div class="messages">
-                <% console.log(messages) %>
+                <% console.log(messages) %> <% console.log(userId) %>
                 <h1><%= title %></h1>
+                <button onclick="openModal()">Create new message</button>
+                <!-- modal for creating new message -->
+                <dialog
+                    id="messageModal"
+                    class="modal"
+                >
+                    <div class="modal-content">
+                        <span
+                            class="close"
+                            onclick="closeModal()"
+                            >&times;</span
+                        >
+                        <form
+                            action="messages/create"
+                            method="post"
+                        >
+                            <input
+                                type="hidden"
+                                name="author"
+                                value="<%= userId %>"
+                            />
+                            <label for="title">Title</label>
+                            <input
+                                type="text"
+                                name="title"
+                                required
+                                maxlength="100"
+                            />
+                            <label for="message">Message</label>
+                            <textarea
+                                name="message"
+                                id=""
+                                cols="30"
+                                rows="10"
+                            ></textarea>
+                            <button type="submit">Submit</button>
+                        </form>
+                        <div
+                            id="errorContainer"
+                            style="display: none"
+                        >
+                            <p>Errors:</p>
+                            <ul id="errorList"></ul>
+                        </div>
+                    </div>
+                </dialog>
                 <% if (!messages.length ) { %>
                 <p>No messages found</p>
                 <% } else { %>
@@ -20,16 +66,31 @@
                     <li>
                         <h2><%= message.title %></h2>
                         <hr />
-                        <h3><%= message.author %></h3>
-                        :
-                        <h4><%= message.timestamp %></h4>
+                        <h3><%= message.author.username %></h3>
+                        <h4>
+                            <%= message.timestamp.toLocaleString('en-GB', {day:
+                            'numeric', month: 'short', year:'numeric', hour:
+                            '2-digit', minute: '2-digit', second:'2-digit'}) %>
+                        </h4>
                         <hr />
-                        <p><% message.message %></p>
+                        <p><%= message.message %></p>
+                        <!-- Display a delete button only to the author or an admin user -->
+                        <% if (userId.equals(message.author._id) ||
+                        userMembership === 'Admin') { %>
+                        <form
+                            action="messages/<%= message._id %>/delete"
+                            method="post"
+                            onsubmit="return confirm('Are you sure you want to delete this message?');"
+                        >
+                            <button type="submit">Delete</button>
+                        </form>
+                        <% } %>
                     </li>
                     <% }) %>
                 </ul>
                 <% } %>
             </div>
         </main>
+        <script src="/javascripts/modal.js"></script>
     </body>
 </html>
