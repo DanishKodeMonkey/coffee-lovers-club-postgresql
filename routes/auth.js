@@ -14,4 +14,12 @@ router.get('/sign-up', users_controller.sign_up_get);
 // sign up POST
 router.post('/sign-up', users_controller.sign_up_post);
 
+router.get('/sign-out', (req, res, next) => {
+    req.logout(err => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/');
+    });
+});
 module.exports = router;
