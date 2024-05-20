@@ -3,7 +3,7 @@ var router = express.Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
-const User = require('../models/users');
+const Users = require('../models/users');
 const users_controller = require('../controllers/usersController');
 
 // sign in GET
