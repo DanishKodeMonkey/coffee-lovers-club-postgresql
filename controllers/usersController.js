@@ -74,7 +74,7 @@ exports.sign_up_post = [
 
 // sign in form GET
 exports.sign_in_get = asyncHandler(async (req, res, next) => {
-    res.render('sign-in-form', { title: 'User sign in' });
+    res.render('sign-in-form', { title: 'User sign in', errors: [] });
 });
 
 // sign in form POST
@@ -88,7 +88,10 @@ exports.sign_in_post = (req, res, next) => {
         }
         if (!user) {
             console.log('Authentication failed: ', info.message);
-            return res.redirect('/auth/sign-in');
+            return res.render('sign-in-form', {
+                title: 'User sign-in',
+                errors: [{ msg: info.message }],
+            });
         }
         req.logIn(user, err => {
             if (err) {
