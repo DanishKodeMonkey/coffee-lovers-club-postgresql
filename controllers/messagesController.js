@@ -14,6 +14,7 @@ exports.index = asyncHandler(async (req, res, next) => {
         title: 'Coffee Lovers Messageboard',
         user: req.user ? req.user : null,
         latestMessages: latestMessages,
+        errors: [],
     });
 });
 
