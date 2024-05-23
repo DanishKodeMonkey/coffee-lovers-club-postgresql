@@ -22,7 +22,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 exports.messages_list = asyncHandler(async (req, res, next) => {
     const allMessages = await Messages.find({})
         .populate('author', 'username')
-        .sort({ timestamp: 1 })
+        .sort({ timestamp: -1 })
         .exec();
 
     // Determine if user is authenticated, if not assign anon flag

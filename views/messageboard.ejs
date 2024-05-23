@@ -17,8 +17,8 @@
                 <p>New user?</p>
                 <a href="/auth/sign-up">Sign up today!</a> <% } %>
                 <br />
-                <a href="/">Back to home</a><% if (!isAnon && !userMembership
-                === 'Guest') { %>
+                <a href="/">Back to home</a>
+                <% if (!isAnon && userMembership !== 'Guest') { %>
                 <button onclick="openModal()">Create new message</button>
                 <dialog
                     id="messageModal"
@@ -83,7 +83,6 @@
                         <hr />
                         <p><%= message.message %></p>
                         <% if (!isAnon) { %>
-
                         <!-- Display a delete button only to the author or an admin user -->
                         <% if (userId.equals(message.author._id) ||
                         userMembership === 'Admin') { %>
