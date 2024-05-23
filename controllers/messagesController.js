@@ -4,9 +4,16 @@ const asyncHandler = require('express-async-handler');
 
 // Index route
 exports.index = asyncHandler(async (req, res, next) => {
+    // Fetch the last 3 messages sorted by timestamp, only getting titles, messages and timestamps
+    const latestMessages = await Messages.find({})
+        .sort({ timestamp: -1 })
+        .limit(3)
+        .select('title message timestamp')
+        .exec();
     res.render('index', {
         title: 'Coffee Lovers Messageboard',
         user: req.user ? req.user : null,
+        latestMessages: latestMessages,
     });
 });
 
