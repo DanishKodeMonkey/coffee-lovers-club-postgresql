@@ -10,8 +10,10 @@ passport.use(
     new LocalStrategy(async (username, password, done) => {
         try {
             //Try to:
+            // normalise username to lowercase
+            const upperCaseUsername = username.toUpperCase();
             // Find user by username
-            const user = await Users.findOne({ username: username });
+            const user = await Users.findOne({ username: upperCaseUsername });
             // If user is not found, finish with message
             if (!user) {
                 return done(null, false, { message: 'Incorrect username' });

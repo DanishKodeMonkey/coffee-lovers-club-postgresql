@@ -15,11 +15,11 @@
                 <p>If you want to join in, how about signing in?</p>
                 <a href="/auth/sign-in">Sign in</a>
                 <p>New user?</p>
-                <a href="/auth/sign-up">Sign up today!</a> <% } %> <% if
-                (!isAnon) { %>
+                <a href="/auth/sign-up">Sign up today!</a> <% } %>
+                <br />
+                <a href="/">Back to home</a><% if (!isAnon && !userMembership
+                === 'Guest') { %>
                 <button onclick="openModal()">Create new message</button>
-
-                <!-- modal for creating new message -->
                 <dialog
                     id="messageModal"
                     class="modal"

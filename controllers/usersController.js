@@ -46,7 +46,8 @@ exports.sign_up_post = [
 
         // create new user object with verified data
         const user = new Users({
-            username: req.body.username,
+            // normalise username to lowercase
+            username: req.body.username.toUpperCase(),
             first_name: req.body.firstName,
             last_name: req.body.lastName,
             password: req.body.password,
@@ -123,13 +124,18 @@ exports.upgrade_user_post = [
                 .limit(3)
                 .select('title message timestamp')
                 .exec();
+
+            // Danish Kode Monkey was here //
+            res.set(
+                'X-Membership-Passphrase',
+                `Pst! The passphrase is ${process.env.SUPER_SECRET_KEY}`
+            );
             // validation error found, render form again with error message
             res.render('index', {
                 title: 'Coffee Lovers Messageboard',
                 latestMessages: latestMessages,
                 user: req.user,
                 errors: errors.array(),
-                supersecretkey: process.env.SUPER_SECRET_KEY,
             });
             return;
         }
