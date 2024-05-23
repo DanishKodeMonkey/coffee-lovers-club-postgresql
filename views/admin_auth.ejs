@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <h1><%= title %></h1>
+        <form
+            action="/auth/admin"
+            method="post"
+        >
+            <div>
+                <label for="secret">Super duper secret passphrase:</label>
+                <input
+                    type="password"
+                    name="secret"
+                    id="secret"
+                    required
+                /><button type="submit">Submit</button>
+            </div>
+        </form>
+        <% if (errors) { %>
+        <ul>
+            <% errors.forEach(error =>{ %>
+            <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+        <% } %>
+    </body>
+</html>

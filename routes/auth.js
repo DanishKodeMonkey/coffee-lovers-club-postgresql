@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const ensureAuthenticated =
+    require('../middleware/authMiddleware').ensureAuthenticated;
 const users_controller = require('../controllers/usersController');
 
 // sign in GET
@@ -16,6 +18,12 @@ router.post('/sign-up', users_controller.sign_up_post);
 
 // upgrade user POST
 router.post('/upgrade-user', users_controller.upgrade_user_post);
+
+// attain admin priviliges GET
+router.get('/admin', ensureAuthenticated, users_controller.admin_get);
+
+// attain admin proviliges POST
+router.post('/admin', ensureAuthenticated, users_controller.admin_post);
 
 router.get('/sign-out', (req, res, next) => {
     req.logout(err => {

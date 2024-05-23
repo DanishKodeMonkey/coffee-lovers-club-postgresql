@@ -138,3 +138,37 @@ exports.upgrade_user_post = [
         // create new user object, but remember _id to update existing user
     }),
 ];
+// Admin authentication form GET
+exports.admin_get = asyncHandler(async (req, res, next) => {
+    res.render('admin_auth', { title: 'Admin Authentication', errors: [] });
+});
+
+// Admin authentication form POST
+exports.admin_post = [
+    body('secret')
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage('Secret duper secret passphrase is required')
+        .escape(),
+
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render('admin_auth', {
+                title: 'Admin Authentication',
+                errors: errors.array(),
+            });
+        }
+
+        if (req.body.secret === process.env.SUPER_DUPER_SECRET_KEY) {
+            req.user.membership = 'Admin';
+            await req.user.save();
+            res.redirect('/messageboard/messages');
+        } else {
+            res.render('admin_auth', {
+                title: 'Admin Authentication',
+                errors: [{ msg: 'Incorrect passphrase... ' }],
+            });
+        }
+    }),
+];
