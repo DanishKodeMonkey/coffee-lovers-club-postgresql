@@ -37,4 +37,4 @@ While the project is feature complete and fully functional, I am still working o
 
 Feel free to explore the Coffee Lovers Message Board! While the project is still undergoing styling improvements, it is fully usable, providing a hands-on experience with user registration, authentication, and message posting functionalities.
 
-Give it a try!!
+[Give it a try!!](https://coffee-lovers-club.fly.dev/)
