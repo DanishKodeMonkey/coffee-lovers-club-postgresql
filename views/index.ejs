@@ -9,6 +9,8 @@
     </head>
     <body>
         <div class="user-content">
+            <% if (user) { %>
+
             <h1>WELCOME BACK <%= user.username %>!</h1>
             <h2>You are currently a <%= user.membership %></h2>
             <% if (user.membership === 'Guest') { %>
@@ -40,8 +42,23 @@
             </form>
             <% } %>
             <a href="/auth/sign-out">LOG OUT</a>
+            <% } else { %>
+            <h1>Welcome to the message board!</h1>
+            <h2>
+                You are currently not signed in, so your access is quite
+                limited.
+            </h2>
+            <p>
+                You are welcome to read along on what is being posted on the
+                messageboard
+            </p>
+            <p>If you want to join in, how about signing in?</p>
+            <a href="/auth/sign-in">Sign in</a>
+            <p>New user?</p>
+            <a href="/auth/sign-up">Sign up today!</a> <% } %>
         </div>
         <div class="messageboard">
+            <p>Otherwise, feel free to visit the messageboard!</p>
             <a href="/messageboard/messages">Go to messageboard</a>
         </div>
     </body>

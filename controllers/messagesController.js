@@ -6,7 +6,7 @@ const asyncHandler = require('express-async-handler');
 exports.index = asyncHandler(async (req, res, next) => {
     res.render('index', {
         title: 'Coffee Lovers Messageboard',
-        user: req.user,
+        user: req.user ? req.user : null,
     });
 });
 
@@ -17,11 +17,16 @@ exports.messages_list = asyncHandler(async (req, res, next) => {
         .sort({ timestamp: 1 })
         .exec();
 
+    // Determine if user is authenticated, if not assign anon flag
+    const isAnon = !req.isAuthenticated();
+
     res.render('messageboard', {
         title: 'Messageboard',
         messages: allMessages,
-        userId: req.user._id,
-        userMembership: req.user.membership,
+        // is user signed in? Determines read only mode
+        isAnon,
+        userId: req.user ? req.user._id : null,
+        userMembership: req.user ? req.user.membership : null,
     });
 });
 

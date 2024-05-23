@@ -7,7 +7,7 @@ const router = express.Router();
 const messages_controller = require('../controllers/messagesController');
 
 /// index route ///
-router.get('/', ensureAuthenticated, messages_controller.index);
+router.get('/', messages_controller.index);
 
 /// MESSAGES ROUTES ///
 
@@ -33,13 +33,13 @@ router.get(
 );
 
 // POST request for update message
-router.get(
+router.post(
     '/messages/:id/update',
     ensureAuthenticated,
     messages_controller.message_update_post
 );
 
 // GET request for all messages
-router.get('/messages', ensureAuthenticated, messages_controller.messages_list);
+router.get('/messages', messages_controller.messages_list);
 
 module.exports = router;

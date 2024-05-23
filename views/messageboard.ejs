@@ -10,9 +10,15 @@
     <body>
         <main>
             <div class="messages">
-                <% console.log(messages) %> <% console.log(userId) %>
-                <h1><%= title %></h1>
+                <h1><%= title %> <% if (isAnon) { %> (read only mode)</h1>
+
+                <p>If you want to join in, how about signing in?</p>
+                <a href="/auth/sign-in">Sign in</a>
+                <p>New user?</p>
+                <a href="/auth/sign-up">Sign up today!</a> <% } %> <% if
+                (!isAnon) { %>
                 <button onclick="openModal()">Create new message</button>
+
                 <!-- modal for creating new message -->
                 <dialog
                     id="messageModal"
@@ -58,15 +64,17 @@
                         </div>
                     </div>
                 </dialog>
-                <% if (!messages.length ) { %>
+                <% } %> <% if (!messages.length ) { %>
                 <p>No messages found</p>
                 <% } else { %>
                 <ul>
                     <% messages.forEach(message => { %>
                     <li>
                         <h2><%= message.title %></h2>
+                        <% if (!isAnon) { %>
                         <hr />
                         <h3><%= message.author.username %></h3>
+                        <% } %>
                         <h4>
                             <%= message.timestamp.toLocaleString('en-GB', {day:
                             'numeric', month: 'short', year:'numeric', hour:
@@ -74,6 +82,8 @@
                         </h4>
                         <hr />
                         <p><%= message.message %></p>
+                        <% if (!isAnon) { %>
+
                         <!-- Display a delete button only to the author or an admin user -->
                         <% if (userId.equals(message.author._id) ||
                         userMembership === 'Admin') { %>
@@ -84,7 +94,7 @@
                         >
                             <button type="submit">Delete</button>
                         </form>
-                        <% } %>
+                        <% } %> <% } %>
                     </li>
                     <% }) %>
                 </ul>
