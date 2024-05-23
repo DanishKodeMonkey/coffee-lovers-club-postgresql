@@ -90,7 +90,7 @@ exports.message_delete_post = asyncHandler(async (req, res, next) => {
     // check if current user is authorized to delete the message
     if (
         req.user &&
-        (req.user._id.equals(message.author) || req.user.membership === 'admin')
+        (req.user._id.equals(message.author) || req.user.membership === 'Admin')
     ) {
         // User is authorized, proceed with deletion from database
         await Messages.findByIdAndDelete(messageId);
