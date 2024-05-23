@@ -40,7 +40,13 @@
                 />
                 <button>Submit</button>
             </form>
-            <% } %>
+            <% if (errors && errors.length > 0) { %>
+            <ul>
+                <% errors.forEach(error =>{ %>
+                <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
+            <% } %> <% } %>
             <a href="/auth/sign-out">LOG OUT</a>
             <% } else { %>
             <h1>Welcome to the message board!</h1>

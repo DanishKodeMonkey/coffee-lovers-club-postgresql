@@ -1,4 +1,5 @@
 require('dotenv').config();
+const Messages = require('../models/messages');
 const Users = require('../models/users');
 const asyncHandler = require('express-async-handler');
 const passport = require('../config/passport'); // import pre-configured passport
@@ -116,9 +117,16 @@ exports.upgrade_user_post = [
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
+            // Fetch the last 3 messages sorted by timestamp, only getting titles, messages and timestamps
+            const latestMessages = await Messages.find({})
+                .sort({ timestamp: -1 })
+                .limit(3)
+                .select('title message timestamp')
+                .exec();
             // validation error found, render form again with error message
             res.render('index', {
                 title: 'Coffee Lovers Messageboard',
+                latestMessages: latestMessages,
                 user: req.user,
                 errors: errors.array(),
                 supersecretkey: process.env.SUPER_SECRET_KEY,
