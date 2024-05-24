@@ -44,7 +44,7 @@ exports.message_create_post = [
     body('author').notEmpty().escape(),
     body('title', 'Title must be between 1 and 100 characters')
         .trim()
-        .isLength({ min: 1, max: 100 })
+        .isLength({ min: 1, max: 50 })
         .escape(),
     body('message', 'Message must be between 1 and 600 characters')
         .trim()

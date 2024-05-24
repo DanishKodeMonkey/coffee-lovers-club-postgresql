@@ -4,9 +4,9 @@ const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 const UsersSchema = new Schema({
-    username: { type: String, required: true, maxLength: 100 },
-    first_name: { type: String, required: true, maxLength: 200 },
-    last_name: { type: String, required: true, maxLength: 200 },
+    username: { type: String, required: true, maxLength: 30 },
+    first_name: { type: String, required: true, maxLength: 30 },
+    last_name: { type: String, required: true, maxLength: 30 },
     membership: {
         type: String,
         required: true,

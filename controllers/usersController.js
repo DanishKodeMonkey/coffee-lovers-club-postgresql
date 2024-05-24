@@ -14,17 +14,17 @@ exports.sign_up_get = asyncHandler(async (req, res, next) => {
 exports.sign_up_post = [
     // validate and sanitize input
     body('username', 'Username must be specified')
-        .isLength({ min: 1, max: 100 })
+        .isLength({ min: 1, max: 30 })
         .withMessage('Keep username length to 100 characters or below')
         .escape(),
     body('firstName', 'First name must be specified')
         .trim()
-        .isLength({ min: 1, max: 200 })
+        .isLength({ min: 1, max: 30 })
         .withMessage('Keep first name length to 200 characters or below')
         .escape(),
     body('lastName', 'Last name must be specified')
         .trim()
-        .isLength({ min: 1, max: 200 })
+        .isLength({ min: 1, max: 30 })
         .withMessage('Keep last name length to 200 characters or below')
         .escape(),
     body('password', 'A password is required')
