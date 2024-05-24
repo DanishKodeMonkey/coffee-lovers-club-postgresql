@@ -1,41 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title><%= title %></title>
-    </head>
+    <%- include('./partials/head.ejs') %>
     <body>
-        <h1><%= title %></h1>
-        <form
-            action="/auth/sign-in"
-            method="post"
-        >
-            <label for="username">Username:</label>
-            <input
-                name="username"
-                placeholder="username"
-                type="text"
-                required
-                maxlength="100"
-            />
-            <label for="password">Password:</label>
-            <input
-                name="password"
-                type="password"
-                required
-                minlength="4"
-                maxlength="9999"
-            />
-            <button>Sign in</button>
-        </form>
-        <% if (errors && errors.length > 0) { %>
-        <ul>
-            <% errors.forEach(error =>{ %>
-            <li><%= error.msg %></li>
-            <% }) %>
-        </ul>
-        <% } %>
-        <p>New user?</p>
-        <a href="/auth/sign-up">Sign up today!</a>
+        <%- include('./partials/header.ejs') %>
+        <main class="container mt-5">
+            <h1 class="display-4 mb-4"><%= title %></h1>
+            <form
+                action="/auth/sign-in"
+                method="post"
+            >
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label
+                            for="username"
+                            class="form-label"
+                            >Username:</label
+                        >
+                        <input
+                            id="username"
+                            name="username"
+                            placeholder="username"
+                            type="text"
+                            class="form-control"
+                            required
+                            maxlength="30"
+                        />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label
+                            for="password"
+                            class="form-label"
+                            >Password:</label
+                        >
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            class="form-control"
+                            required
+                            minlength="4"
+                            maxlength="9999"
+                        />
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary mt-3"
+                >
+                    Sign in
+                </button>
+            </form>
+            <% if (errors && errors.length > 0) { %>
+            <div
+                class="alert alert-danger mt-3"
+                role="alert"
+            >
+                <% for( let error of errors) { %>
+                <p><%= error.msg %></p>
+                <% } %>
+            </div>
+            <% } %>
+            <hr />
+            <h5 class="display-md-5">New user?</p>
+            <a
+                class="btn btn-primary"
+                href="/auth/sign-up"
+                >Sign up today!</a
+            >
+        </main>
+        <%- include('./partials/footer.ejs') %>
     </body>
 </html>
