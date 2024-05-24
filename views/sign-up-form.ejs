@@ -16,14 +16,14 @@
                 placeholder="username"
                 type="text"
                 required
-                maxlength="100"
+                maxlength="30"
                 value="<%= user && user.username ? user.username : '' %>"
             />
             <label for="firstName">First name:</label>
             <input
                 name="firstName"
                 placeholder="First name"
-                maxlength="200"
+                maxlength="30"
                 required
                 type="text"
                 value="<%= user && user.first_name ? user.first_name : '' %>"
@@ -32,7 +32,7 @@
             <input
                 name="lastName"
                 placeholder="Last name"
-                maxlength="200"
+                maxlength="30"
                 required
                 type="text"
                 value="<%= user && user.last_name ? user.last_name : '' %>"
