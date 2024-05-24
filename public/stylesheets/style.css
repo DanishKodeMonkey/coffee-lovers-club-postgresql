@@ -1,8 +1,13 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  transition: 200ms ease-in-out;
 }
 
 a {
   color: #00B7FF;
+}
+
+.icon-dark{
+  fill:white
 }
