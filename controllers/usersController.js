@@ -76,7 +76,11 @@ exports.sign_up_post = [
 
 // sign in form GET
 exports.sign_in_get = asyncHandler(async (req, res, next) => {
-    res.render('sign-in-form', { title: 'User sign in', errors: [] });
+    res.render('sign-in-form', {
+        title: 'User sign in',
+        errors: [],
+        user: req.user ? req.user : null,
+    });
 });
 
 // sign in form POST

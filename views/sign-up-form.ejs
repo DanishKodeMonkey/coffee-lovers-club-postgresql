@@ -1,65 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title><%= title %></title>
-    </head>
+    <%- include('./partials/head.ejs') %>
     <body>
-        <h1><%= title %></h1>
-        <form
-            action=""
-            method="post"
+        <%- include('./partials/header.ejs') %>
+        <main class="container mt-5">
+            <h1 class="display-4 mb-4"><%= title %></h1>
+            <form
+                action=""
+                method="post"
+            >
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label
+                            for="username"
+                            class="form-label"
+                            >Username:</label
+                        >
+                        <input
+                            id="username"
+                            name="username"
+                            placeholder="username"
+                            type="text"
+                            class="form-control"
+                            required
+                            maxlength="30"
+                            value="<%= user && user.username ? user.username : '' %>"
+                        />
+                    </div>
+                    <div class="col-md-4">
+                        <label
+                            for="firstName"
+                            class="form-label"
+                            >First name:</label
+                        >
+                        <input
+                            id="firstName"
+                            name="firstName"
+                            placeholder="First name"
+                            maxlength="30"
+                            class="form-control"
+                            required
+                            type="text"
+                            value="<%= user && user.first_name ? user.first_name : '' %>"
+                        />
+                    </div>
+                    <div class="col-md-4">
+                        <label
+                            for="lastName"
+                            class="form-label"
+                            >Last name:</label
+                        >
+                        <input
+                            id="lastName"
+                            name="lastName"
+                            placeholder="Last name"
+                            maxlength="30"
+                            class="form-control"
+                            required
+                            type="text"
+                            value="<%= user && user.last_name ? user.last_name : '' %>"
+                        />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label
+                            for="password"
+                            class="form-label"
+                            >Password:</label
+                        >
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            class="form-control"
+                            required
+                            minlength="4"
+                            maxlength="9999"
+                            value="<%= user && user.password ? user.password : '' %>"
+                        />
+                    </div>
+                    <div class="col-md-6">
+                        <label
+                            for="confirmPassword"
+                            class="form-label"
+                            >Confirm password:</label
+                        >
+                        <input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            class="form-control"
+                            required
+                            minlength="4"
+                            maxlength="9999"
+                            value="<%= user && user.confirmPassword ? user.confirmPassword : '' %>"
+                        />
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary mt-3"
+                >
+                    Sign up
+                </button>
+            </form>
+        </main>
+        <% if (errors && errors.length > 0) { %>
+        <div
+            class="alert alert-danger mt-3"
+            role="alert"
         >
-            <label for="username">Username:</label>
-            <input
-                name="username"
-                placeholder="username"
-                type="text"
-                required
-                maxlength="30"
-                value="<%= user && user.username ? user.username : '' %>"
-            />
-            <label for="firstName">First name:</label>
-            <input
-                name="firstName"
-                placeholder="First name"
-                maxlength="30"
-                required
-                type="text"
-                value="<%= user && user.first_name ? user.first_name : '' %>"
-            />
-            <label for="lastName">Last name:</label>
-            <input
-                name="lastName"
-                placeholder="Last name"
-                maxlength="30"
-                required
-                type="text"
-                value="<%= user && user.last_name ? user.last_name : '' %>"
-            />
-
-            <label for="password">Password:</label>
-            <input
-                name="password"
-                type="password"
-                required
-                minlength="4"
-                maxlength="9999"
-                value="<%= user && user.password ? user.password : '' %>"
-            />
-            <label for="confirmPassword">Confirm password:</label>
-            <input
-                name="confirmPassword"
-                type="password"
-                required
-                minlength="4"
-                maxlength="9999"
-                value="<%= user && user.confirmPassword ? user.confirmPassword : '' %>"
-            />
-            <button>Sign up</button>
-        </form>
-        <% if (errors) { %> <% for( let error of errors) { %>
-        <li><%= error.msg %></li>
-        <% } %> <% } %>
+            <% for( let error of errors) { %>
+            <p><%= error.msg %></p>
+            <% } %>
+        </div>
+        <% } %> <%- include('./partials/footer.ejs') %>
     </body>
 </html>
