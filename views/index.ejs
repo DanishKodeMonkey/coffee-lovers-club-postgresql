@@ -1,94 +1,154 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title><%= title %></title>
-        <link
-            rel="stylesheet"
-            href="/stylesheets/style.css"
-        />
-    </head>
+    <%- include('partials/head.ejs') %>
     <body>
-        <div class="user-content">
-            <% if (user) { %>
+        <%- include('partials/header.ejs') %>
 
-            <h1>WELCOME BACK <%= user.username %>!</h1>
-            <h2>You are currently a <%= user.membership %></h2>
-            <% if (user.membership === 'Guest') { %>
-            <p>
-                Therefore, you may only access the message board in read only
-                mode.
-            </p>
-            <p>
-                Want to post? That requires a priviliged secret key! Type it
-                below to upgrade to a full fledged member!
-            </p>
-            <form
-                action="/auth/upgrade-user"
-                method="post"
-            >
-                <input
-                    type="hidden"
-                    name="userId"
-                    value="<%= user._id %>"
-                />
-                <label for="superSecretMemberKey"
-                    >Super secret member key:</label
-                >
-                <input
-                    name="superSecretMemberKey"
-                    type="password"
-                />
-                <button>Submit</button>
-            </form>
-            <% if (errors && errors.length > 0) { %>
-            <ul>
-                <% errors.forEach(error =>{ %>
-                <li><%= error.msg %></li>
-                <% }) %>
-            </ul>
-            <% } %> <% } %>
-            <a href="/auth/sign-out">LOG OUT</a>
-            <% } else { %>
-            <h1>Welcome to the message board!</h1>
-            <h2>
-                You are currently not signed in, so your access is quite
-                limited.
-            </h2>
-            <p>
-                You are welcome to read along on what is being posted on the
-                messageboard
-            </p>
-            <p>If you want to join in, how about signing in?</p>
-            <a href="/auth/sign-in">Sign in</a>
-            <p>New user?</p>
-            <a href="/auth/sign-up">Sign up today!</a> <% } %>
-        </div>
-        <div class="messageboard">
-            <p>Otherwise, feel free to visit the messageboard!</p>
-            <a href="/messageboard/messages">Go to messageboard</a>
-            <hr />
-            <div class="messageboard-preview">
-                <h2>Messageboard preview</h2>
-                <% if (latestMessages.length) { %>
-                <h3>Latest messages:</h3>
-                <ul>
-                    <% latestMessages.forEach(message =>{ %>
-                    <li>
-                        <h4><%= message.title %></h4>
-                        <p>
-                            <%= message.timestamp.toLocaleString('en-GB', {day:
-                            'numeric', month: 'short', year: 'numeric', hour:
-                            '2-digit', minute: '2-digit', second: '2-digit'}) %>
+        <main class="container mt-5">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <% if (user) { %>
+                    <h1 class="display-4 mb-4">
+                        WELCOME BACK <%= user.username %>!
+                    </h1>
+                    <h2 class="display-3 mb-2">
+                        You are currently a <%= user.membership %>
+                    </h2>
+                    <% if (user.membership === 'Guest') { %>
+                    <p class="lead">
+                        Therefore, you may only access the message board in read
+                        only mode.
+                    </p>
+                    <p class="lead">
+                        Want to post? That requires a priviliged secret key!
+                        Type it below to upgrade to a full fledged member!
+                    </p>
+                    <form
+                        action="/auth/upgrade-user"
+                        method="post"
+                    >
+                        <div class="form-group">
+                            <input
+                                type="hidden"
+                                name="userId"
+                                value="<%= user._id %>"
+                            />
+                            <label for="superSecretMemberKey"
+                                >Super secret member key:</label
+                            >
+                            <input
+                                name="superSecretMemberKey"
+                                type="password"
+                                class="form-control"
+                            />
+                        </div>
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                    <% if (errors && errors.length > 0) { %>
+                    <div
+                        class="alert alert-danger mt-3"
+                        role="alert"
+                    >
+                        <ul>
+                            <% errors.forEach(error =>{ %>
+                            <li><%= error.msg %></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                    <% } %> <% } %>
+                    <a href="/auth/sign-out">LOG OUT</a>
+                    <% } else { %>
+                    <h1 class="display-4 mb-4">
+                        Welcome to the message board!
+                    </h1>
+                    <h2 class="display-8 mb-2">
+                        You are currently not signed in, so your access is quite
+                        limited.
+                    </h2>
+                    <p class="lead">
+                        You are welcome to read along on what is being posted on
+                        the messageboard
+                    </p>
+
+                    <div>
+                        <p class="lead mb-0">
+                            How about joining in? Interested?
                         </p>
-                        <p><%= message.message %></p>
-                    </li>
+                        <div class="d-flex justify-content-center mt-3 mb-5">
+                            <div class="m-1">
+                                <a
+                                    class="btn btn-primary"
+                                    href="/auth/sign-in"
+                                    >Already a user? Sign in!</a
+                                >
+                            </div>
+                            <div class="m-1">
+                                <a
+                                    class="btn btn-primary"
+                                    href="/auth/sign-up"
+                                    >New user? Sign up today!</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <p class="lead mb-0">
+                        Otherwise, feel free to visit the messageboard!
+                    </p>
+                    <a
+                        class="btn btn-primary"
+                        href="/messageboard/messages"
+                        >Go to messageboard</a
+                    >
                     <hr />
-                    <% }) %>
-                </ul>
-                <% } else {%>
-                <p>No messages found. Be the first to write!</p>
-                <% } %>
+                    <% } %>
+                </div>
+                <div class="col-md-8 offset-md-2 text-center">
+                    <div class="messageboard">
+                        <div class="messageboard-preview">
+                            <h2 class="mb-4">Messageboard preview</h2>
+                            <div class="row">
+                                <% if (latestMessages.length) { %>
+                                <h3>Latest messages:</h3>
+                                <% latestMessages.forEach(message =>{ %>
+                                <div class="col-md-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <%= message.title %>
+                                            </h5>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    Posted on <%=
+                                                    message.timestamp.toLocaleString('en-GB',
+                                                    {day: 'numeric', month:
+                                                    'short', year: 'numeric',
+                                                    hour: '2-digit', minute:
+                                                    '2-digit', second:
+                                                    '2-digit'}) %>
+                                                </small>
+                                            </p>
+                                            <p class="card-text">
+                                                <%= message.message %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %> <% } else {%>
+                                <p class="col">
+                                    No messages found. Be the first to write!
+                                </p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
+        <%- include('partials/footer.ejs') %>
     </body>
 </html>
