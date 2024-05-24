@@ -33,6 +33,7 @@ exports.messages_list = asyncHandler(async (req, res, next) => {
         messages: allMessages,
         // is user signed in? Determines read only mode
         isAnon,
+        user: req.user ? req.user : null,
         userId: req.user ? req.user._id : null,
         userMembership: req.user ? req.user.membership : null,
     });

@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title><%= title %></title>
-        <link
-            rel="stylesheet"
-            href="/stylesheets/style.css"
-        />
-    </head>
+    <%- include('./partials/head.ejs') %>
     <body>
-        <main>
+        <%- include('./partials/header.ejs') %>
+        <main class="container mt-5">
             <div class="messages">
-                <h1><%= title %> <% if (isAnon) { %> (read only mode)</h1>
+                <h1 class="display-4 mb-4">
+                    <%= title %> <% if (isAnon) { %> (read only mode)
+                </h1>
 
-                <p>If you want to join in, how about signing in?</p>
-                <a href="/auth/sign-in">Sign in</a>
-                <p>New user?</p>
-                <a href="/auth/sign-up">Sign up today!</a> <% } %>
-                <br />
-                <a href="/">Back to home</a>
+                <div>
+                    <p>Welcome to anonymous read-only mode!</p>
+                    <p>How about joining in?</p>
+                    <div class="d-flex mt-3 mb-5">
+                        <div class="m-1">
+                            <a
+                                class="btn btn-primary"
+                                href="/auth/sign-in"
+                                >Already a user? Sign in!</a
+                            >
+                        </div>
+                        <div class="m-1">
+                            <a
+                                class="btn btn-primary"
+                                href="/auth/sign-up"
+                                >New user? Sign up today!</a
+                            >
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+                <hr />
                 <% if (!isAnon && userMembership !== 'Guest') { %>
-                <button onclick="openModal()">Create new message</button>
+                <button
+                    class="btn btn-primary"
+                    onclick="openModal()"
+                >
+                    Create new message
+                </button>
                 <dialog
                     id="messageModal"
                     class="modal"
@@ -101,6 +119,6 @@
                 <% } %>
             </div>
         </main>
-        <script src="/javascripts/modal.js"></script>
+        <%- include('./partials/footer.ejs') %>
     </body>
 </html>
