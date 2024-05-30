@@ -15,7 +15,7 @@ const UsersSchema = new Schema({
     },
     password: { type: String, required: true, minLength: 4, maxLength: 9999 },
     // Refer to users messages
-    messages: [{ type: Schema.Types.ObjectId, ref: 'Messages' }],
+    messages: [{ type: Schema.Types.ObjectId, ref: 'messages' }],
 });
 
 UsersSchema.virtual('full_name').get(function () {
