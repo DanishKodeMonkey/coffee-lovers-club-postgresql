@@ -65,7 +65,7 @@ exports.sign_up_post = [
                     username: username.toUpperCase(),
                     first_name: firstName,
                     last_name: lastName,
-                    password: password, //Hashing will be done in queries.
+                    password: password, // Hashing will be done in queries.
                 });
                 res.redirect('/auth/sign-in');
             } catch (err) {
@@ -106,7 +106,7 @@ exports.sign_in_post = (req, res, next) => {
                 console.error('Login error: ', err);
                 return next(err);
             }
-            console.log('User authenticated succesfully: ', user);
+            console.log('User authenticated successfully: ', user);
             return res.redirect('/');
         });
     })(req, res, next);
@@ -118,31 +118,32 @@ exports.upgrade_user_post = [
         (value, { req }) => value === process.env.SUPER_SECRET_KEY
     ),
 
-    // shandle request after validation
+    // Handle request after validation
     asyncHandler(async (req, res, next) => {
         // extract errors from validation result if failed
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
             // Fetch the last 3 messages sorted by timestamp, only getting titles, messages and timestamps
-            const latestMessages = await Messages.find({})
-                .sort({ timestamp: -1 })
-                .limit(3)
-                .select('title message timestamp')
-                .exec();
+            try {
+                const latestMessages = await userQueries.getLatestMessages();
 
-            // Danish Kode Monkey was here //
-            res.set(
-                'X-Membership-Passphrase',
-                `Pst! The passphrase is ${process.env.SUPER_SECRET_KEY}`
-            );
-            // validation error found, render form again with error message
-            res.render('index', {
-                title: 'Coffee Lovers Messageboard',
-                latestMessages: latestMessages,
-                user: req.user,
-                errors: errors.array(),
-            });
+                // Danish Kode Monkey was here //
+                res.set(
+                    'X-Membership-Passphrase',
+                    `Pst! The passphrase is ${process.env.SUPER_SECRET_KEY}`
+                );
+                // validation error found, render form again with error message
+                res.render('index', {
+                    title: 'Coffee Lovers Messageboard',
+                    latestMessages: latestMessages,
+                    user: req.user,
+                    errors: errors.array(),
+                });
+            } catch (err) {
+                console.error('error fetchign messages: ', err);
+                next(err);
+            }
             return;
         }
         // validation succesful, proceed with upgrade
