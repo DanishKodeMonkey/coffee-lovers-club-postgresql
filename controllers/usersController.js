@@ -141,22 +141,27 @@ exports.upgrade_user_post = [
                     errors: errors.array(),
                 });
             } catch (err) {
-                console.error('error fetchign messages: ', err);
+                console.error('error fetching messages: ', err);
                 next(err);
             }
             return;
         }
         // validation succesful, proceed with upgrade
-        const user = await Users.findById(req.body.userId);
-        if (!user) {
-            // User not found
-            return res.status(404).send('User not found, upgrade cancelled.');
+        const { userId } = req.body;
+        try {
+            const user = await userQueries.getUserById(userId);
+            if (!user) {
+                // user not found
+                return res
+                    .status(404)
+                    .send('User not found, upgrade cancelled');
+            }
+            await userQueries.updateUserMembership(userId, 'Member'); // Upgrade membership
+            res.redirect('/');
+        } catch (err) {
+            console.error('Error upgrading user: ', err);
+            next(err);
         }
-        user.membership = 'Member'; //Update membership
-        await user.save();
-        res.redirect('/');
-
-        // create new user object, but remember _id to update existing user
     }),
 ];
 // Admin authentication form GET
