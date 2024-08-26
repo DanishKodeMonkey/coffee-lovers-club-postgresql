@@ -1,9 +1,8 @@
 require('dotenv').config();
-const Messages = require('../models/messages');
-const Users = require('../models/users');
 const asyncHandler = require('express-async-handler');
 const passport = require('../config/passport'); // import pre-configured passport
 const { body, validationResult } = require('express-validator');
+const { userQueries } = require('../db/queries');
 
 // sign up form GET
 exports.sign_up_get = asyncHandler(async (req, res, next) => {
@@ -44,32 +43,35 @@ exports.sign_up_post = [
         // extract validation errors from request
         const errors = validationResult(req);
 
-        // create new user object with verified data
-        const user = new Users({
-            // normalise username to lowercase
-            username: req.body.username.toUpperCase(),
-            first_name: req.body.firstName,
-            last_name: req.body.lastName,
-            password: req.body.password,
-            confirmPassword: req.body.confirmPassword,
-        });
+        // Error detected, render form again with values and error messages
         if (!errors.isEmpty()) {
             console.error(
                 'Something went wrong, resending form: ',
                 errors,
-                user
+                req.body
             );
             // Errors detected, render form again with values and error message
             res.render('sign-up-form', {
                 title: 'Sign up',
-                user: user,
+                user: req.body,
                 errors: errors.array(),
             });
             return;
         } else {
             // Data form is valid
-            await user.save();
-            res.redirect('/auth/sign-in');
+            const { username, firstname, lastname, password } = req.body;
+            try {
+                await userQueries.createUser({
+                    username: username.toUpperCase(),
+                    first_name: firstname,
+                    last_name: lastname,
+                    password: password, //Hashing will be done in queries.
+                });
+                res.redirect('/auth/sign-in');
+            } catch (err) {
+                console.error('Error creating user: ', err);
+                next(err);
+            }
         }
     }),
 ];
@@ -99,7 +101,7 @@ exports.sign_in_post = (req, res, next) => {
                 errors: [{ msg: info.message }],
             });
         }
-        req.logIn(user, err => {
+        req.logIn(user, (err) => {
             if (err) {
                 console.error('Login error: ', err);
                 return next(err);
