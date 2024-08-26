@@ -187,9 +187,13 @@ exports.admin_post = [
         }
 
         if (req.body.secret === process.env.SUPER_DUPER_SECRET_KEY) {
-            req.user.membership = 'Admin';
-            await req.user.save();
-            res.redirect('/messageboard/messages');
+            try {
+                await userQueries.updateUserMembership(req.user.id, 'Admin');
+                res.redirect('/messageboard/messages');
+            } catch (err) {
+                console.error('Error updating admin status: ', err);
+                next(err);
+            }
         } else {
             res.render('admin_auth', {
                 title: 'Admin Authentication',
