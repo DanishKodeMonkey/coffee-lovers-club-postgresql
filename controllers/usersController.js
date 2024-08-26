@@ -59,12 +59,12 @@ exports.sign_up_post = [
             return;
         } else {
             // Data form is valid
-            const { username, firstname, lastname, password } = req.body;
+            const { username, firstName, lastName, password } = req.body;
             try {
                 await userQueries.createUser({
                     username: username.toUpperCase(),
-                    first_name: firstname,
-                    last_name: lastname,
+                    first_name: firstName,
+                    last_name: lastName,
                     password: password, //Hashing will be done in queries.
                 });
                 res.redirect('/auth/sign-in');
