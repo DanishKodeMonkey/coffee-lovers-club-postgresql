@@ -1,4 +1,5 @@
 const pool = require('./pool');
+require('dotenv').config();
 
 const initTables = async () => {
     const client = await pool.connect();
@@ -69,5 +70,10 @@ const initTables = async () => {
     }
 };
 
-// For local
-initTables();
+/* Check environment and execute or export accordingly */
+if (process.env.NODE_ENV === 'development') {
+    // Run script if in dev environment
+    initTables().catch((err) => console.error('Initialization failed: ', err));
+} else {
+    module.exports = initTables;
+}
