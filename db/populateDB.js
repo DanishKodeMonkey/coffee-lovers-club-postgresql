@@ -51,10 +51,10 @@ const initTables = async () => {
         await client.query(`
             CREATE TABLE IF NOT EXISTS messages(
             id SERIAL PRIMARY KEY,
-            user_id INT REFERENCES users(id) ON DELETE CASCADE,
+            author INT REFERENCES users(id) ON DELETE CASCADE,
             title VARCHAR(50) NOT NULL,
             message TEXT NOT NULL,
-            created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+            timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
             )
             `);
         console.log("Table 'messages' created or already exists...");
