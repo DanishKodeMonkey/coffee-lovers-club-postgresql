@@ -56,7 +56,12 @@ app.use(
         saveUninitialized: true,
     })
 );
+
 app.use(passport.session());
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user || null;
+    next();
+});
 app.use(express.urlencoded({ extended: false }));
 
 // routers set to app
