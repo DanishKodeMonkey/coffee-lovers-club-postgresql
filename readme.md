@@ -2,9 +2,9 @@
 
 ## A Prototype Authorization Concept Prototype
 
-### Technologies Used: Node.js, Express, Passport.js, MongoDB
+### Technologies Used: Node.js, Express, Passport.js, PostgreSQL
 
-Welcome to the Coffee Lovers Message Board! An educational prototype for gaining better understanding of user registration, authorization, and management of user data. It demonstrates the implementation of user membership statuses, authorization checks for access rights, user registration validations and sanitization best practices, and various features ranging from limited read-only access for anonymous users to full admin privileges. As well as various methods and usages of mongoose to pull, create and delete messages stored on the database.
+Welcome to the Coffee Lovers Message Board! An educational prototype for gaining a better understanding of user registration, authorization, and management of user data. It demonstrates the implementation of user membership statuses, authorization checks for access rights, user registration validations and sanitization best practices, and various features ranging from limited read-only access for anonymous users to full admin privileges. The project has recently migrated from MongoDB to PostgreSQL to enhance data integrity and relational database management.
 
 ### Features:
 
@@ -26,15 +26,11 @@ Building this project provided invaluable insights into the complexities of esta
 -   **Authorization Checks**: Implementing authorization checks to control access to different features based on user roles.
 -   **Custom Middleware**: Learning how to create and implement custom middleware for handling authentication and authorization logic.
 -   **Interactive UI Components**: Utilizing JavaScript to enhance user interactions with features like modals for creating new messages and confirming deletions.
--   **Database Management**: Working with MongoDB to store user data and messages efficiently.
+-   **Database Management**: Transitioning from MongoDB to PostgreSQL for relational data management. Working with PostgreSQL to manage user data and messages efficiently.
 -   **Error Handling**: Implementing error handling mechanisms to gracefully handle errors and provide informative feedback to users.
-
-### Work in Progress:
-
-While the project is feature complete and fully functional, I am still working on the styling of the different components, which means that for now the styling is quite bare bones.
 
 ### Try It Out:
 
 Feel free to explore the Coffee Lovers Message Board! While the project is still undergoing styling improvements, it is fully usable, providing a hands-on experience with user registration, authentication, and message posting functionalities.
 
-[Give it a try!!](https://coffee-lovers-club.fly.dev/)
+[Give it a try!!](https://coffee-lovers-club-postgresql.adaptable.app/messageboard)
