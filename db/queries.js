@@ -40,10 +40,7 @@ const userQueries = {
     /* Create new user */
     createUser: async ({ username, first_name, last_name, password }) => {
         try {
-            const hashedPassword = await bcrypt.hash(
-                password,
-                process.env.HASH_SALT
-            );
+            const hashedPassword = await bcrypt.hash(password, 10);
             const result = await pool.query(
                 `
             INSERT INTO users(username, first_name, last_name, password) 
