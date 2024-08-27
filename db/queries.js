@@ -79,4 +79,78 @@ const userQueries = {
     },
 };
 
-module.exports = { userQueries };
+const messageQueries = {
+    getLatestMessages: async (limit) => {
+        try {
+            const result = await pool.query(
+                `
+            SELECT * FROM messages
+            ORDER BY timestamp DESC
+            LIMIT $1
+            `,
+                [limit]
+            );
+            return result.rows;
+        } catch (err) {
+            console.error('Error fetching messages: ', err);
+            throw err;
+        }
+    },
+    getAllMessages: async () => {
+        try {
+            const result = await pool.query(`
+            SELECT * FROM messages 
+            ORDER BY timestamp DESC
+            `);
+            return result.rows;
+        } catch (err) {
+            console.error('Error fetching all messages: ', err);
+            throw err;
+        }
+    },
+    createMessage: async ({ author, title, message }) => {
+        try {
+            const result = await pool.query(
+                `
+            INSERT INTO messages(author, title, message, timestamp)
+            VALUES($1, $2, $3, NOW()) 
+            RETURNING *
+            `,
+                [author, title, message]
+            );
+            return result.rows[0];
+        } catch (err) {
+            console.error('Error creating new message: ', err);
+            throw err;
+        }
+    },
+    getMessageById: async (messageId) => {
+        try {
+            const result = await pool.query(
+                `
+                SELECT * FROM messages WHERE id = $1
+                `,
+                [messageId]
+            );
+            return result.rows[0];
+        } catch (err) {
+            console.error('Error fetching message by ID: ', err);
+            throw err;
+        }
+    },
+    deleteMessageById: async (messageId) => {
+        try {
+            const result = await pool.query(
+                `
+                DELETE FROM messages WHERE id = $1 RETURNING title
+                `,
+                [messageId]
+            );
+            return result.rows[0];
+        } catch (err) {
+            console.error('Error deleting message by ID: ', err);
+            throw err;
+        }
+    },
+};
+module.exports = { userQueries, messageQueries };
