@@ -6,7 +6,7 @@
         <main class="container mt-5">
             <h1 class="display-4 mb-4"><%= title %></h1>
             <form
-                action=""
+                action="/auth/sign-up"
                 method="post"
             >
                 <div class="row mb-3">
@@ -77,7 +77,6 @@
                             required
                             minlength="4"
                             maxlength="9999"
-                            value="<%= user && user.password ? user.password : '' %>"
                         />
                     </div>
                     <div class="col-md-6">
@@ -94,7 +93,6 @@
                             required
                             minlength="4"
                             maxlength="9999"
-                            value="<%= user && user.confirmPassword ? user.confirmPassword : '' %>"
                         />
                     </div>
                 </div>
