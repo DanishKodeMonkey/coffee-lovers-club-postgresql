@@ -8,7 +8,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('./config/passport'); // Import configured passport
 
@@ -17,15 +16,6 @@ const authRouter = require('./routes/auth'); // import all auth related routes
 const messageBoardRouter = require('./routes/messageboard'); // import all routes for messageboard area
 
 var app = express();
-
-// mongoDB setup and connect
-mongoose.set('strictQuery', false);
-const mongoDB = process.env.MONGO_URI;
-
-main().catch(err => console.log(err));
-async function main() {
-    await mongoose.connect(mongoDB);
-}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
