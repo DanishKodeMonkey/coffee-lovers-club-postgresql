@@ -33,4 +33,4 @@ Building this project provided invaluable insights into the complexities of esta
 
 Feel free to explore the Coffee Lovers Message Board! While the project is still undergoing styling improvements, it is fully usable, providing a hands-on experience with user registration, authentication, and message posting functionalities.
 
-[Give it a try!!](https://coffee-lovers-club-postgresql.adaptable.app/messageboard)
+[Give it a try!!](https://coffee-lovers-club-postgresql.adaptable.app/)
