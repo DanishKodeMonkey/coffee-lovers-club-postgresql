@@ -153,4 +153,35 @@ const messageQueries = {
         }
     },
 };
-module.exports = { userQueries, messageQueries };
+
+const authQueries = {
+    getUserByUsername: async (username) => {
+        try {
+            const result = await pool.query(
+                `
+                SELECT * FROM users WHERE LOWER(username) = $1
+                `,
+                [username.toLowerCase()]
+            );
+            return result.rows[0];
+        } catch (err) {
+            console.error('Error fetching user by username: ', err);
+            throw err;
+        }
+    },
+    getUserById: async (userId) => {
+        try {
+            const result = await pool.query(
+                `
+                SELECT * FROM users WHERE id = $1
+                `,
+                [userId]
+            );
+            return result.rows[0];
+        } catch (err) {
+            console.error('Error fetching user by id', err);
+            throw err;
+        }
+    },
+};
+module.exports = { userQueries, messageQueries, authQueries };

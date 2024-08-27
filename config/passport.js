@@ -2,7 +2,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
-const Users = require('../models/users');
+const { authQueries } = require('../db/queries');
 
 // For sign in, use passport for authentication
 passport.use(
@@ -11,9 +11,9 @@ passport.use(
         try {
             //Try to:
             // normalise username to lowercase
-            const upperCaseUsername = username.toUpperCase();
+            const lowerCaseUsername = username.toLowerCase();
             // Find user by username
-            const user = await Users.findOne({ username: upperCaseUsername });
+            const user = await authQueries.getUserByUsername(lowerCaseUsername);
             // If user is not found, finish with message
             if (!user) {
                 return done(null, false, { message: 'Incorrect username' });
@@ -40,7 +40,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await Users.findById(id);
+        const user = await authQueries.getUserById(id);
         done(null, user);
     } catch (err) {
         done(err);
