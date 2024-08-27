@@ -36,7 +36,7 @@
                             <input
                                 type="hidden"
                                 name="userId"
-                                value="<%= user._id %>"
+                                value="<%= user.id %>"
                             />
                             <div class="col-md-4">
                                 <label
@@ -135,13 +135,13 @@
                                             </h5>
                                             <p class="card-text">
                                                 <small class="text-muted">
-                                                    Posted on <%=
-                                                    message.timestamp.toLocaleString('en-GB',
+                                                    Posted on <%= new
+                                                    Date(message.timestamp.toLocaleString('en-GB',
                                                     {day: 'numeric', month:
                                                     'short', year: 'numeric',
                                                     hour: '2-digit', minute:
                                                     '2-digit', second:
-                                                    '2-digit'}) %>
+                                                    '2-digit'}) )%>
                                                 </small>
                                             </p>
                                             <p class="card-text">
