@@ -68,7 +68,7 @@
                             <!-- form area of modal -->
                             <div class="modal-body">
                                 <form
-                                    action="messages/create"
+                                    action="/messages/create"
                                     method="post"
                                 >
                                     <input
@@ -127,18 +127,20 @@
                         <p class="mb-1"><%= message.author.username %></p>
                         <% } %>
                         <p class="mb-1">
-                            <%= message.timestamp.toLocaleString('en-GB', {day:
-                            'numeric', month: 'short', year:'numeric', hour:
-                            '2-digit', minute: '2-digit', second:'2-digit'}) %>
+                            <%= new
+                            Date(message.timestamp).toLocaleString('en-GB',
+                            {day: 'numeric', month: 'short', year:'numeric',
+                            hour: '2-digit', minute: '2-digit',
+                            second:'2-digit'}) %>
                         </p>
                         <hr />
                         <p class="mb-1"><%= message.message %></p>
                         <% if (!isAnon) { %>
                         <!-- Display a delete button only to the author or an admin user -->
-                        <% if (userId.equals(message.author._id) ||
-                        userMembership === 'Admin') { %>
+                        <% if (userId === message.author.id || userMembership
+                        === 'Admin') { %>
                         <form
-                            action="messages/<%= message._id %>/delete"
+                            action="/messages/<%= message.id %>/delete"
                             method="post"
                             onsubmit="return confirm('Are you sure you want to delete this message?');"
                         >
