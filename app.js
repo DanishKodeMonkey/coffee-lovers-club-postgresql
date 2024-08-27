@@ -17,6 +17,27 @@ const messageBoardRouter = require('./routes/messageboard'); // import all route
 
 var app = express();
 
+// attempt to populate database
+const initializeDatabase = async () => {
+    try {
+        console.log('Starting database initialization...');
+        // import database init scripts
+        const populateDB = require('./db/populateDB');
+        await populateDB();
+        console.log('Database initialized successfully!');
+    } catch (error) {
+        console.error('Error during database initialization', error);
+    }
+};
+
+initializeDatabase()
+    .then(() => {
+        console.log('Database initialized!');
+    })
+    .catch((err) => {
+        console.error('Failed to initialize database... ', err);
+    });
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
